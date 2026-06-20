@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 // Настройки Storyblok
-const STORYBLOK_TOKEN = '8tyUetia0DtjByQa0jtigAtt'; 
-const SLUG = 'landing'; 
+const STORYBLOK_TOKEN = '1bcEOJuTpDCPhqhWvXGlcwtt'; 
+const SLUG = 'home'; 
 const url = `https://api.storyblok.com/v2/cdn/stories/${SLUG}?token=${STORYBLOK_TOKEN}&version=draft`;
 
 // Функция для отрисовки компонентов в HTML
@@ -15,12 +15,10 @@ function renderComponent(block) {
     `;
   }
 
-  if (block.component === 'stats') {
-    const columnsHtml = block.columns.map(col => `
+  if (block.component === 'grid') {
+    const columnsHtml = block.feature.map(col => `
       <div class="stat-card">
-        <div class="number">${col.number}</div>
-        <div class="label">${col.label}</div>
-        <div class="desc">${col.bescreibung || ''}</div>
+        <div class="number">${col.name}</div>   
       </div>
     `).join('');
 
