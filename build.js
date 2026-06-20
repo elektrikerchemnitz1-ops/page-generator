@@ -89,7 +89,8 @@ async function runBuild() {
     `;
 
     console.log('3. Записываем файл index.html...');
-    fs.writeFileSync('index.html', htmlTemplate, 'utf-8');
+    if (!fs.existsSync('dist')) fs.mkdirSync('dist');
+fs.writeFileSync('dist/index.html', htmlTemplate);
     
     console.log('Успешно! Сайт собран в один заход.');
   } catch (error) {

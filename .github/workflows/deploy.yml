@@ -1,10 +1,10 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages and All-Inkl via FTPS
 
 on:
   push:
     branches: [ master ]
   repository_dispatch:
-    types: [ storyblok_publish ]
+    types: [ storyblok_publish ] # Срабатывает при публикации из Storyblok
 
 permissions:
   contents: write
@@ -12,23 +12,36 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: 🟢 Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: npm install
 
-      - name: Fetch data and Build HTML
-        run: npm run build
+      - name: 🛠️ Fetch data and Build HTML
+        run: npm run build # Запускает build.js, создавая папку dist/
 
-      - name: Deploy to GitHub Pages
+      # --- ЭТАП 1: Деплой на GitHub Pages ---
+      - name: 🌐 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: .
+          folder: dist # Загружаем на GitHub Pages ТОЛЬКО содержимое папки dist
           branch: gh-pages
+
+      # --- ЭТАП 2: Деплой на немецкий хостинг All-Inkl ---
+      - name: 🚀 Upload via FTPS to All-Inkl
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./dist/ # На хостинг полетит ТОЛЬКО index.html без исходного кода
