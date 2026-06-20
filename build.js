@@ -95,7 +95,7 @@ fs.writeFileSync('dist/index.html', htmlTemplate);
     console.log('Успешно! Сайт собран в один заход.');
   } catch (error) {
     console.error('Ошибка сборки:', error.message);
-    process.exit(1); // Сообщаем GitHub Actions, что сборка упала, если что-то пошло не так
+    process.exit(1); // Сообщаем GitHub Actions, что сборка упала, если что-то пошло не так !!!
   }
 }
 
