@@ -43,6 +43,7 @@ async function runBuild() {
 
     const data = await response.json();
     const components = data.story.content.body;
+    console.log("components", components)
 
     console.log('2. Генерируем HTML-контент...');
     const mainContent = components.map(renderComponent).join('');
