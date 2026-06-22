@@ -16,7 +16,7 @@ function renderComponent(block) {
   }
 
   if (block.component === 'grid') {
-    const columnsHtml = block.feature.map(col => `
+    const columnsHtml = block.columns.map(col => `
       <div class="stat-card">
         <div class="number">${col.name}</div>   
       </div>
